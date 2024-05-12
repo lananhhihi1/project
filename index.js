@@ -1,10 +1,26 @@
-function numSquares(n) {
-  const dp = new Array(n + 1).fill(Infinity);
-  dp[0] = 0;
-  for (let i = 1; i <= n; i++) {
-    for (let j = 1; j * j <= i; j++) {
-      dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+const mergeSortIterative = (arr) => {
+  const merge = (left, right) => {
+    let result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+      if (left[leftIndex] < right[rightIndex]) {
+        result.push(left[leftIndex]);
+        leftIndex++;
+      } else {
+        result.push(right[rightIndex]);
+        rightIndex++;
+      }
+    }
+    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  };
+  const mergeSize = 2;
+  for (let i = 0; i < arr.length; i += mergeSize) {
+    for (let j = i; j < arr.length; j += mergeSize) {
+      const left = arr.slice(j, j + mergeSize / 2);
+      const right = arr.slice(j + mergeSize / 2, j + mergeSize);
+      arr.splice(j, mergeSize, ...merge(left, right));
     }
   }
-  return dp[n];
-}
+  return arr;
+};
