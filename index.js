@@ -1,15 +1,10 @@
-function findMaxLength(nums) {
-  const map = new Map();
-  map.set(0, -1);
-  let count = 0;
-  let maxLength = 0;
+function wiggleSort(nums) {
+  nums.sort((a, b) => a - b);
+  const median = Math.floor((nums.length + 1) / 2);
+  const left = nums.slice(0, median);
+  const right = nums.slice(median);
   for (let i = 0; i < nums.length; i++) {
-    count += nums[i] === 1 ? 1 : -1;
-    if (map.has(count)) {
-      maxLength = Math.max(maxLength, i - map.get(count));
-    } else {
-      map.set(count, i);
-    }
+    if (i % 2 === 0) nums[i] = left.pop();
+    else nums[i] = right.pop();
   }
-  return maxLength;
 }
